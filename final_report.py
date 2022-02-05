@@ -1,14 +1,23 @@
 import configparser
 from google.cloud import bigquery
 import os
+import sys
 
+try:
+    machine = sys.argv[1]
+except Exception as e:
+    raise('enter machine type', e)
 
 config = configparser.ConfigParser()
 config.read("config.ini")
 try:
     cred_file = config.get('gcp', 'cred_file')
     cwd = os.path.dirname(os.path.realpath(__file__))
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}\{}".format(cwd,
+    if machine == 'windows':
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}\{}".format(cwd,
+                                                                  cred_file)
+    else:
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}/{}".format(cwd,
                                                                   cred_file)
 
 except Exception as e:
