@@ -19,9 +19,6 @@ dag = DAG(
 
 with dag:
 
-    test_dummy = DummyOperator(
-        task_id='test_dummy'
-    )
 
     partition_table_bash = BashOperator(
         task_id='partition_table_bash',
@@ -54,4 +51,4 @@ with dag:
         do_xcom_push=False
     )
 
-test_dummy >> partition_table_bash >> cs_to_bq_bash >> clean_data_bash >> adjust_data_bash >> final_report_bash
+partition_table_bash >> cs_to_bq_bash >> clean_data_bash >> adjust_data_bash >> final_report_bash
