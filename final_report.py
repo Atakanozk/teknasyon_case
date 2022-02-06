@@ -49,21 +49,21 @@ SELECT *, ROW_NUMBER() OVER() as rnt
 FROM (
     SELECT pickup_hexagon, COUNT(*) AS pickup_hexagon_popularity, 
     FROM `teknasyon-340116.taxi_ds.adjusted_taxi_data` 
-    GROUP BY 1 ORDER BY pickup_hexagon_popularity DESC LIMIT 3
+    GROUP BY 1 ORDER BY pickup_hexagon_popularity DESC LIMIT 5
     ) 
 )pickup
 LEFT JOIN (
     SELECT *, ROW_NUMBER() OVER() as rnt FROM (
         SELECT dropoff_hexagon, COUNT(*) AS dropoff_hexagon_popularity
         FROM `teknasyon-340116.taxi_ds.adjusted_taxi_data` 
-        GROUP BY 1 ORDER BY dropoff_hexagon_popularity DESC LIMIT 3
+        GROUP BY 1 ORDER BY dropoff_hexagon_popularity DESC LIMIT 5
     )
 )dropoff on pickup.rnt=dropoff.rnt
 LEFT JOIN
 (   SELECT *, ROW_NUMBER() OVER() as rnt FROM (
         SELECT route, COUNT(*) AS route_popularity FROM (
         SELECT *, CONCAT(pickup_hexagon, '-', dropoff_hexagon) AS route FROM `teknasyon-340116.taxi_ds.adjusted_taxi_data` 
-        ) GROUP BY 1 ORDER BY route_popularity desc LIMIT 3
+        ) GROUP BY 1 ORDER BY route_popularity desc LIMIT 5
     )
 )route_t ON route_t.rnt=dropoff.rnt
 ORDER BY rank asc
