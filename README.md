@@ -1,1 +1,2 @@
-# This repository created for Teknasyon taxi driver case
+## Hi! Welcome to taxi driver case solution
+This repository created for teknasyon taxi driver case
