@@ -14,7 +14,7 @@ args = {
 dag = DAG(
     dag_id=DAG_ID,
     default_args=args,
-    schedule_interval='@daily'
+    schedule_interval= None  #'@daily'
 )
 
 with dag:
