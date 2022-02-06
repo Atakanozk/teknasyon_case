@@ -58,6 +58,9 @@ When vm is created follow these steps:
 You can see teknasyon_dag on airflow now and If you did all of these step run the dag.
 You will see tables on bigquery under your_project_id.your_data_set.tables.
 You can also see partitioned data in the cloud storage bucket called taxib. Data partitioned by Y - M - D as csv.
-For my own methods and screenshots dwnload this file.
+For my own methods and screenshots I will share doc with you.
+
+Thank you!
+Atakan Özkan
 
 
