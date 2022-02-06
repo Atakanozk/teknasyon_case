@@ -29,10 +29,29 @@ with dag:
         do_xcom_push=False
     )
 
+
+    cs_to_bq_bash = BashOperator(
+        task_id='cs_to_bq_bash',
+        bash_command='cd /home/atakanozkan98/teknasyon_case; source venv/bin/activate; python cloud_storage_to_bq.py linux',
+        do_xcom_push=False
+    )
+
+    clean_data_bash = BashOperator(
+        task_id='cs_to_bq_bash',
+        bash_command='cd /home/atakanozkan98/teknasyon_case; source venv/bin/activate; python clean_data.py linux',
+        do_xcom_push=False
+    )
+
+    adjust_data_bash = BashOperator(
+        task_id='cs_to_bq_bash',
+        bash_command='cd /home/atakanozkan98/teknasyon_case; source venv/bin/activate; python adjust_data.py linux',
+        do_xcom_push=False
+    )
+
     final_report_bash = BashOperator(
         task_id='final_report_bash',
         bash_command='cd /home/atakanozkan98/teknasyon_case; source venv/bin/activate; python final_report.py linux',
         do_xcom_push=False
     )
 
-test_dummy >> partition_table_bash >> final_report_bash
+test_dummy >> partition_table_bash >> cs_to_bq_bash >> clean_data_bash >> adjust_data_bash >> final_report_bash

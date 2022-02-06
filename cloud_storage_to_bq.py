@@ -53,6 +53,7 @@ def extract_schema(client):
 
 try:
     schema = extract_schema(bigquery_client)
+    print(f"{schema} Extracted")
 except Exception as e:
     raise("Schema Could not pulled", e)
 

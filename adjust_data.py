@@ -117,7 +117,7 @@ while loop:
     try:
         for s in split_data:
             result = bigquery_client.insert_rows(table, s)
-            print(result, s.index())
+            print(result, len(s))
         loop = False
     except NotFound:
         print('Not Found trying again')
