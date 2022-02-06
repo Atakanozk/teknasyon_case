@@ -6,13 +6,22 @@ from google.cloud.exceptions import NotFound
 from google.cloud.exceptions import Conflict
 import pandas as pd
 from datetime import datetime, timedelta, date
+import sys
+try:
+    machine = sys.argv[1]
+except Exception as e:
+    raise('enter machine type', e)
 
 config = configparser.ConfigParser()
 config.read("config.ini")
 try:
     cred_file = config.get('gcp', 'cred_file')
     cwd = os.path.dirname(os.path.realpath(__file__))
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}\{}".format(cwd,
+    if machine == 'windows':
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}\{}".format(cwd,
+                                                                  cred_file)
+    elif machine == 'linux':
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}/{}".format(cwd,
                                                                   cred_file)
 
 except Exception as e:

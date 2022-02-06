@@ -23,9 +23,16 @@ with dag:
         task_id='test_dummy'
     )
 
-    final_report_bash = BashOperator(
-        task_id='final_report_bash',
-        bash_command='cd /home/atakanozkan98/teknasyon_case; source venv/bin/activate; python final_report.py linux'
+    partition_table_bash = BashOperator(
+        task_id='partition_table_bash',
+        bash_command='cd /home/atakanozkan98/teknasyon_case; source venv/bin/activate; python create_partition_table.py linux',
+        do_xcom_push=False
     )
 
-test_dummy >> final_report_bash
+    final_report_bash = BashOperator(
+        task_id='final_report_bash',
+        bash_command='cd /home/atakanozkan98/teknasyon_case; source venv/bin/activate; python final_report.py linux',
+        do_xcom_push=False
+    )
+
+test_dummy >> partition_table_bash >> final_report_bash

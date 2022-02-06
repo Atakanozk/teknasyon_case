@@ -5,13 +5,22 @@ import os
 from google.cloud.exceptions import Conflict
 import pandas as pd
 from datetime import datetime, timedelta, date
+import sys
+try:
+    machine = sys.argv[1]
+except Exception as e:
+    raise('enter machine type', e)
 
 config = configparser.ConfigParser()
 config.read("config.ini")
 try:
     cred_file = config.get('gcp', 'cred_file')
     cwd = os.path.dirname(os.path.realpath(__file__))
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}\{}".format(cwd,
+    if machine == 'windows':
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}\{}".format(cwd,
+                                                                  cred_file)
+    elif machine == 'linux':
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}/{}".format(cwd,
                                                                   cred_file)
 
 except Exception as e:
@@ -27,18 +36,14 @@ except Exception as e:
 
 
 
-# Checking if dataset exists if not open a new ds
-# try:
-#     dataset_id = "{}.taxi_ds".format(bigquery_client.project)
-#     dataset = bigquery.Dataset(dataset_id)
-#     dataset.location = "US"
-#     dataset = bigquery_client.create_dataset(dataset, timeout=30)
-#     print("Created dataset {}.{}".format(bigquery_client.project, dataset.dataset_id))
-# except Conflict:
-#     print(f"{dataset} Already Exists")
-# except Exception as e:
-#     raise Exception("Unexpected error", e)
+# Checking if csvs in cloud storage exists if not create them
+table_names = []
+for blob in storage_client.list_blobs('taxib', prefix='first_week/taxi'):
+    table_names.append((str(blob.name).split('/', 1)[1]).split('.', 1)[0])
 
+if table_names:
+    print(f"CSVs already exists", table_names)
+    sys.exit()
 
 def query_to_df(query):
     try:

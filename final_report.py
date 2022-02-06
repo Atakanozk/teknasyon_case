@@ -16,7 +16,7 @@ try:
     if machine == 'windows':
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}\{}".format(cwd,
                                                                   cred_file)
-    else:
+    elif machine == 'linux':
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "{}/{}".format(cwd,
                                                                   cred_file)
 
