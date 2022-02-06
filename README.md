@@ -32,3 +32,32 @@ From now on you project installation finished.
 * Activate ve and install requirements with the following statement ``` pip install -r requirements.txt ``` Note : If you have any error with airflow while downloading requirements just pass.
 
 You can run the codes manually now !
+
+From now on you need to open compute engine in order to automate the system and make a vm as I do. But you don't need to do that part. If you already have a machine with airflow installed then just change the bash scripts from dags/teknasyon_dag.py to your machine pwd. 
+
+### Compute engine part (If you already have airflow on your machine, pass this part)
+* Enable compute engine api.
+* Create a vm. I suggest Ubuntu. 10 gb storage is enough for this project. Small machine will be enough. 
+* Dont forget to click allow http and https methods.
+When vm is created follow these steps:
+``` sudo apt install python ```
+``` apt-get install software-properties-common ```
+``` apt-get install python-pip ```
+* Create ve and activate it. 
+* Then install airflow ``` pip install apache-airflow ```
+* init db as ``` airflow db init ``` (sqlite is enough for our project)
+* Then create a firewall.
+* On the gcp panel **firewall** section, create firewall rule give it a name and priortiy as 8080.
+* Spesificed target will be all instances. 
+* Enable tcp and create rule.
+* On machine Create a superuser ```airflow users  create --role Admin --username admin --email admin --firstname admin --lastname admin --password admin```
+* Now you can run ``` airflow webserver -p 8080 ``` and on the other session ``` airflow scheduler ``` 
+* To see you web page open your compute engine panel and copy vm external ip. For example 34.139.59.188 and paste it as 34.139.59.188:8080 
+* On the login page enter admin - admin your username and password and now you can see your airflow.
+* On the vm side chane **airflow.cfg** with ```vim airflow.cfg``` and change **dags_folder = /home/username/teknasyon_case/dags**
+You can see teknasyon_dag on airflow now and If you did all of these step run the dag.
+You will see tables on bigquery under your_project_id.your_data_set.tables.
+You can also see partitioned data in the cloud storage bucket called taxib. Data partitioned by Y - M - D as csv.
+For my own methods and screenshots dwnload this file.
+
+
