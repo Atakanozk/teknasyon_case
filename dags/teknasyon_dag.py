@@ -37,13 +37,13 @@ with dag:
     )
 
     clean_data_bash = BashOperator(
-        task_id='cs_to_bq_bash',
+        task_id='clean_data_bash',
         bash_command='cd /home/atakanozkan98/teknasyon_case; source venv/bin/activate; python clean_data.py linux',
         do_xcom_push=False
     )
 
     adjust_data_bash = BashOperator(
-        task_id='cs_to_bq_bash',
+        task_id='adjust_data_bash',
         bash_command='cd /home/atakanozkan98/teknasyon_case; source venv/bin/activate; python adjust_data.py linux',
         do_xcom_push=False
     )
